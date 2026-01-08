@@ -99,7 +99,7 @@ if ses_files:
 if rr_files:
     save_uploaded_files(rr_files, RR_DIR)
 
-# -------------------- TABLE INPUT --------------------
+# -------------------- TABLE INPUT (IMPROVED UX) --------------------
 st.header("2️⃣ Paste Details")
 
 columns = [
@@ -110,11 +110,43 @@ columns = [
     "RENAME"
 ]
 
-input_df = st.data_editor(
-    pd.DataFrame(columns=columns),
-    num_rows="dynamic",
+# Initialize session state for table
+if "details_df" not in st.session_state:
+    st.session_state.details_df = pd.DataFrame(columns=columns)
+
+# Controls
+c1, c2, c3 = st.columns([2, 1, 1])
+
+with c1:
+    rows_to_add = st.number_input(
+        "Rows to add at once",
+        min_value=1,
+        max_value=200,
+        value=10,
+        step=1
+    )
+
+with c2:
+    if st.button("➕ Add Rows"):
+        empty_rows = pd.DataFrame(
+            [{col: "" for col in columns}] * rows_to_add
+        )
+        st.session_state.details_df = pd.concat(
+            [st.session_state.details_df, empty_rows],
+            ignore_index=True
+        )
+
+with c3:
+    if st.button("➖ Remove Last Row"):
+        if len(st.session_state.details_df) > 0:
+            st.session_state.details_df = st.session_state.details_df.iloc[:-1]
+
+# Editable table
+st.session_state.details_df = st.data_editor(
+    st.session_state.details_df,
     use_container_width=True
 )
+
 
 # -------------------- PROCESS & DOWNLOAD --------------------
 st.header("3️⃣ Merge & Download")
