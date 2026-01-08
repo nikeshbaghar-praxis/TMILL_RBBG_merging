@@ -17,7 +17,7 @@ import zipfile
 
 # -------------------- APP CONFIG --------------------
 st.set_page_config(page_title="PDF Merger", layout="wide")
-st.title("📄 Invoice / E-Invoice / RR PDF Merger")
+st.title("📄 Invoice / SES Copy / RR Merger")
 
 # -------------------- UTILITY FUNCTIONS --------------------
 def clean_str(value):
