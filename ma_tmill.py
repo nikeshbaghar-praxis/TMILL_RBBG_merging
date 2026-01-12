@@ -150,16 +150,20 @@ st.session_state.details_df = st.data_editor(
 
 
 # -------------------- PROCESS & DOWNLOAD --------------------
+
 st.header("3️⃣ Merge & Download")
 
 if st.button("🚀 Merge PDFs"):
-    if input_df.empty:
+
+    df = st.session_state.details_df   # ✅ FIX HERE
+
+    if df.empty:
         st.error("Please enter at least one row.")
         st.stop()
 
     logs = []
 
-    for idx, row in input_df.iterrows():
+    for idx, row in df.iterrows():
         try:
             memo_no = clean_str(row["MEMO NO"])
             bill_no = clean_str(row["BILL NO"])
@@ -202,6 +206,7 @@ if st.button("🚀 Merge PDFs"):
 
         except Exception as e:
             logs.append(f"Row {idx}: ❌ Error → {e}")
+
 
     # -------------------- ZIP OUTPUT --------------------
     zip_buffer = BytesIO()
