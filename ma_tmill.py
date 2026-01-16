@@ -18,7 +18,7 @@ import zipfile
 # -------------------- APP CONFIG --------------------
 st.set_page_config(page_title="PDF Merger", layout="wide")
 st.title("📄 Invoice / SES Copy / RR Merger")
-st.subheader("Kindly do manually cross-checking of merged and renamed files at your end")
+st.subheader("Kindly do manual cross-checking of merged and renamed files at your end")
 
 # -------------------- UTILITY FUNCTIONS --------------------
 def clean_str(value):
